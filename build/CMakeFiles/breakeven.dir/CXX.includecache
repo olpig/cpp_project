@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/pigeo/Desktop/master/S3/C++/project/classes.cpp
+iostream
+-
+cmath
+-
+classes.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/classes.hpp
+
+C:/Users/pigeo/Desktop/master/S3/C++/project/classes.hpp
+iostream
+-
+cmath
+-
+vector
+-
+
+C:/Users/pigeo/Desktop/master/S3/C++/project/main.cpp
+iostream
+-
+cmath
+-
+

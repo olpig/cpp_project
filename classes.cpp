@@ -1,67 +1,112 @@
+// TO COMPILE:
+//
+// WINDOWS USERS
+// mkdir build
+// cd build
+// cmake -G "NMake Makefiles" ..
+// nmake
 #include <iostream>
 #include <cmath>
+#include "classes.hpp"
 
 namespace project
 {
-	underlying::underlying(std::vector<double> UndlData)
+	//pi n'est pas explicitement défini sur C++
+	double pi = 3.14159265358979323846264338328;
+
+	underlying::underlying(const std::vector<double> UndlData)
 		: m_UndlData(UndlData)
 	{
 	}
-	underlying::get_underlying(std::size_t UndlPos)
+	/*
+	underlying::get_underlying(std::size_t index)
 	{
-		return m_UndlData[UndlPos];
+		return m_UndlData[index];
 	}
-	underlying::~underlying()
+	*/
+
+	double underlying::get_underlying(std::size_t index)
 	{
-		delete[] m_UndlData;
-		m_UndlData= nullptr;
+		return m_UndlData[index];
 	}
 
-	bevolatilities::bevolatilities(const std::size_t size)
+	underlying::~underlying()
 	{
-		m_bevols.resize(size); //Pas sur pour celle_ci
+		/*
+		delete[] m_UndlData;
+		m_UndlData= nullptr;
+		*/
+		//m_UndlData is a vector not a pointer
+	}
+
+	bevolatility::bevolatility(const std::size_t size)
+		:m_bevol(size)
+	{
+		//the constructor handles the size of the vector
+		//m_bevols.resize(size); //Pas sur pour celle_ci
 	}
 	
-	bevolatilities::get_bevolatilities(std::size_t index) const
+	double bevolatility::get_bevolatility(std::size_t index) const
 	{
-		return m_bevols[index];
+		return m_bevol[index];
 	}
-	bevolatilities::set_bevolatilities(std::size_t index, double bevol) const
+	void bevolatility::set_bevolatility(std::size_t index, double bevol)// const
 	{
-		m_bevols[index]=bevol;
+		m_bevol[index]=bevol;
 	}
-	bevolatilities::~bevolatilities()
+	bevolatility::~bevolatility()
 	{
+		/*This is not a pointer but rather a vector
 		delete[] m_bevols;
 		m_bevols= nullptr;
+		*/
 	}
-	rates::rates(std::vector<double> rates)
-		: m_rates(rates)
+	rate::rate(std::vector<double> rates)
+		: m_rate(rates)
 	{
 	}
-	rates::get_rate(double maturity)
+	double rate::get_rate(std::size_t maturity) const
 	{
-		return m_rates[maturity]; //Je considère que la maturité est l'indexe, Il suffit juste de dire que 1st date=1 et voila
+		return m_rate[maturity]; //Je considère que la maturité est l'indexe, Il suffit juste de dire que 1st date=1 et voila
 	}
-	rates::~rates()
+	double flat_rate::get_rate() const
 	{
+		return m_rate;
+	}
+	rate::~rate()
+	{
+		/*
 		delete[] m_rates;
 		m_rates= nullptr;
+		*/
+		//m_rates is a vector not a pointer
 	}
-	double BSPricer(double undl, int time_to_mat, double strike,double rt ,double vol,normal_distribution norm_dist);
+
+	double normal_cdf(double x)
+	{
+		//we define the normal cdf using the error function (calculations are straightforward
+		return 0.5*(1 + erf(x*std::sqrt(2)));
+	}
+
+	double normal_pdf(double x)
+	{
+		return std::exp(-x*x / 2) * 1 / std::sqrt(2 * pi);
+	}
+	double BSPricer(double spot, int time_to_mat, double strike, double rt, double vol)
 	{
 		double d1;
 		double d2;
-		d1=(std::log(undl/strike)+(rt-vol*vol/2)*std::sqrt(time_to_mat))/(vol*std::sqrt(time_to_mat));
-		d2=d1-vol*std::sqrt(time_to_mat);
-		return undl*norm_dist(d1)-strike*std::exp(-rt*time_to_maturity)*norm_dist(d2);
+		d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
+		d2 = d1 - vol*std::sqrt(time_to_mat);
+		return spot*normal_pdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_pdf(d2);
 	}
-	double Delta(underlying undl, int time_to_mat, double strike,rate rt ,double vol,std::normal_distribution ndist);
+
+	double Delta(double spot, int time_to_mat, double strike, double rt ,double vol)
 	{
-		double pi; //pi n'est pas explicitement défini sur C++
-		pi=3.14159265358979323846264338328;
 		double d1;
-		d1=(std::log(undl/strike)+(rt-vol*vol/2)*std::sqrt(time_to_mat))/(vol*std::sqrt(time_to_mat));
-		return 1/(std::sqrt(2*time_to_mat))*std::exp(-0.5*d1*d1);
+		d1=(std::log(spot/strike)+(rt+vol*vol/2)*time_to_mat)/(vol*std::sqrt(time_to_mat));
+		//return 1/(std::sqrt(2*pi))*std::exp(-0.5*d1*d1);
+		return normal_cdf(d1);
 	}
+
 }
