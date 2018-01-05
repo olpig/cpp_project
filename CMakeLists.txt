@@ -22,7 +22,8 @@ endif()
 
 set(BREAKEVEN_SRCS
     main.cpp
-    classes.cpp)
+    classes.cpp
+underlying.cpp)
 
 set(BREAKEVEN_TARGET breakeven)
 add_executable(${BREAKEVEN_TARGET} ${BREAKEVEN_SRCS})

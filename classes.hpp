@@ -48,18 +48,6 @@ namespace project
 		double m_rate;
 	};
 	
-	class underlying
-	{
-		public:
-			underlying(const std::vector<double> UndlData);
-			double get_underlying(std::size_t index);
-
-			~underlying();
-		
-		private:
-			std::vector<double> m_UndlData;
-	};
-	
 	double BSPricer(double spot, int time_to_mat, double strike, double rt ,double vol);
 	
 	//double undl parce que je n'ai besoin que d'un undl précis

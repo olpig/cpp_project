@@ -14,31 +14,6 @@ namespace project
 	//pi n'est pas explicitement défini sur C++
 	double pi = 3.14159265358979323846264338328;
 
-	underlying::underlying(const std::vector<double> UndlData)
-		: m_UndlData(UndlData)
-	{
-	}
-	/*
-	underlying::get_underlying(std::size_t index)
-	{
-		return m_UndlData[index];
-	}
-	*/
-
-	double underlying::get_underlying(std::size_t index)
-	{
-		return m_UndlData[index];
-	}
-
-	underlying::~underlying()
-	{
-		/*
-		delete[] m_UndlData;
-		m_UndlData= nullptr;
-		*/
-		//m_UndlData is a vector not a pointer
-	}
-
 	bevolatility::bevolatility(const std::size_t size)
 		:m_bevol(size)
 	{
