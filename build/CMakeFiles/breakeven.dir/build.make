@@ -148,11 +148,42 @@ CMakeFiles\breakeven.dir\underlying.cpp.obj.provides: CMakeFiles\breakeven.dir\u
 CMakeFiles\breakeven.dir\underlying.cpp.obj.provides.build: CMakeFiles\breakeven.dir\underlying.cpp.obj
 
 
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj: CMakeFiles\breakeven.dir\flags.make
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj: ..\ComputeBeVol.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\pigeo\Desktop\master\S3\C++\project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/breakeven.dir/ComputeBeVol.cpp.obj"
+	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1411~1.255\bin\Hostx64\x64\cl.exe  @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj /FdCMakeFiles\breakeven.dir\ /FS -c C:\Users\pigeo\Desktop\master\S3\C++\project\ComputeBeVol.cpp
+<<
+
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/breakeven.dir/ComputeBeVol.cpp.i"
+	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1411~1.255\bin\Hostx64\x64\cl.exe  > CMakeFiles\breakeven.dir\ComputeBeVol.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\pigeo\Desktop\master\S3\C++\project\ComputeBeVol.cpp
+<<
+
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/breakeven.dir/ComputeBeVol.cpp.s"
+	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1411~1.255\bin\Hostx64\x64\cl.exe  @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\breakeven.dir\ComputeBeVol.cpp.s /c C:\Users\pigeo\Desktop\master\S3\C++\project\ComputeBeVol.cpp
+<<
+
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.requires:
+
+.PHONY : CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.requires
+
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.provides: CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\breakeven.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.provides.build
+.PHONY : CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.provides
+
+CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.provides.build: CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj
+
+
 # Object files for target breakeven
 breakeven_OBJECTS = \
 "CMakeFiles\breakeven.dir\main.cpp.obj" \
 "CMakeFiles\breakeven.dir\classes.cpp.obj" \
-"CMakeFiles\breakeven.dir\underlying.cpp.obj"
+"CMakeFiles\breakeven.dir\underlying.cpp.obj" \
+"CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj"
 
 # External object files for target breakeven
 breakeven_EXTERNAL_OBJECTS =
@@ -160,9 +191,10 @@ breakeven_EXTERNAL_OBJECTS =
 breakeven.exe: CMakeFiles\breakeven.dir\main.cpp.obj
 breakeven.exe: CMakeFiles\breakeven.dir\classes.cpp.obj
 breakeven.exe: CMakeFiles\breakeven.dir\underlying.cpp.obj
+breakeven.exe: CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj
 breakeven.exe: CMakeFiles\breakeven.dir\build.make
 breakeven.exe: CMakeFiles\breakeven.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\pigeo\Desktop\master\S3\C++\project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable breakeven.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\pigeo\Desktop\master\S3\C++\project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable breakeven.exe"
 	C:\Users\pigeo\Anaconda3\Library\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\breakeven.dir --manifests  -- C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1411~1.255\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\breakeven.dir\objects1.rsp @<<
  /out:breakeven.exe /implib:breakeven.lib /pdb:C:\Users\pigeo\Desktop\master\S3\C++\project\build\breakeven.pdb /version:0.0  /MANIFEST:NO /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<
@@ -175,6 +207,7 @@ CMakeFiles\breakeven.dir\build: breakeven.exe
 CMakeFiles\breakeven.dir\requires: CMakeFiles\breakeven.dir\main.cpp.obj.requires
 CMakeFiles\breakeven.dir\requires: CMakeFiles\breakeven.dir\classes.cpp.obj.requires
 CMakeFiles\breakeven.dir\requires: CMakeFiles\breakeven.dir\underlying.cpp.obj.requires
+CMakeFiles\breakeven.dir\requires: CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj.requires
 
 .PHONY : CMakeFiles\breakeven.dir\requires
 

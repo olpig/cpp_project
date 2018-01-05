@@ -6,19 +6,29 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.cpp
 iostream
 -
 cmath
 -
-underlying.hpp
-C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.hpp
+algorithm
+-
+ComputeBeVol.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
+
+C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
 iostream
 -
 cmath
 -
 vector
 -
+iostream
+-
+cmath
+-
+underlying.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.hpp
 
 C:/Users/pigeo/Desktop/master/S3/C++/project/classes.cpp
 iostream

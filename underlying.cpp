@@ -15,6 +15,11 @@ namespace undl
 	underlying::underlying(const std::vector<double> UndlData, const std::vector<double> Dates)
 		: m_UndlData(UndlData), m_Date(Dates)
 	{
+		m_size = m_UndlData.size();
+	}
+	std::size_t underlying::get_size()
+	{
+		return m_size;
 	}
 
 	double underlying::get_underlying(std::size_t index)
@@ -34,6 +39,14 @@ namespace undl
 		m_UndlData= nullptr;
 		*/
 		//m_UndlData is a vector not a pointer
+	}
+	std::vector<double> underlying::read_underlying()
+	{
+		return m_UndlData;
+	}
+	std::vector<double> underlying::read_date()
+	{
+		return m_Date;
 	}
 
 	std::string const& CSVRow::operator[](std::size_t index) const

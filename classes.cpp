@@ -72,7 +72,7 @@ namespace project
 	*/
 	double normal_cdf(double x)
 	{
-		//we define the normal cdf using the error function (calculations are straightforward
+		//we define the normal cdf using the error function (calculations are straightforward)
 		return 0.5*(1 + erf(x*std::sqrt(2)));
 	}
 
@@ -86,7 +86,7 @@ namespace project
 		double d2;
 		d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
 		d2 = d1 - vol*std::sqrt(time_to_mat);
-		return spot*normal_pdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_pdf(d2);
+		return spot*normal_cdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_cdf(d2);
 	}
 
 	double Delta(double spot, int time_to_mat, double strike, double rt ,double vol)

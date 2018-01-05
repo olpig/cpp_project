@@ -124,6 +124,33 @@ breakeven\fast:
 	$(MAKE) -f CMakeFiles\breakeven.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\breakeven.dir\build
 .PHONY : breakeven\fast
 
+ComputeBeVol.obj: ComputeBeVol.cpp.obj
+
+.PHONY : ComputeBeVol.obj
+
+# target to build an object file
+ComputeBeVol.cpp.obj:
+	$(MAKE) -f CMakeFiles\breakeven.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\breakeven.dir\ComputeBeVol.cpp.obj
+.PHONY : ComputeBeVol.cpp.obj
+
+ComputeBeVol.i: ComputeBeVol.cpp.i
+
+.PHONY : ComputeBeVol.i
+
+# target to preprocess a source file
+ComputeBeVol.cpp.i:
+	$(MAKE) -f CMakeFiles\breakeven.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\breakeven.dir\ComputeBeVol.cpp.i
+.PHONY : ComputeBeVol.cpp.i
+
+ComputeBeVol.s: ComputeBeVol.cpp.s
+
+.PHONY : ComputeBeVol.s
+
+# target to generate assembly for a file
+ComputeBeVol.cpp.s:
+	$(MAKE) -f CMakeFiles\breakeven.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\breakeven.dir\ComputeBeVol.cpp.s
+.PHONY : ComputeBeVol.cpp.s
+
 classes.obj: classes.cpp.obj
 
 .PHONY : classes.obj
@@ -214,6 +241,9 @@ help:
 	@echo ... breakeven
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... ComputeBeVol.obj
+	@echo ... ComputeBeVol.i
+	@echo ... ComputeBeVol.s
 	@echo ... classes.obj
 	@echo ... classes.i
 	@echo ... classes.s
