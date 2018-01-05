@@ -17,13 +17,14 @@ namespace undl
 	class underlying
 	{
 		public:
-			underlying(const std::vector<double> UndlData);
+			underlying(const std::vector<double> UndlData, const std::vector<double> Dates);
 			double get_underlying(std::size_t index);
-
+			double get_date(std::size_t index);
 			~underlying();
 		
 		private:
 			std::vector<double> m_UndlData;
+			std::vector<double> m_Date;
 	};
 
 	//class representing one row of the csv file

@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
+iostream
+-
+cmath
+-
+underlying.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.hpp
+iostream
+-
+cmath
+-
+vector
+-
+
 C:/Users/pigeo/Desktop/master/S3/C++/project/classes.cpp
 iostream
 -
@@ -33,6 +47,8 @@ classes.hpp
 C:/Users/pigeo/Desktop/master/S3/C++/project/classes.hpp
 underlying.hpp
 C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.hpp
+ComputeBeVol.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
 fstream
 -
 string

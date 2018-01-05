@@ -12,14 +12,19 @@
 namespace undl
 {
 
-	underlying::underlying(const std::vector<double> UndlData)
-		: m_UndlData(UndlData)
+	underlying::underlying(const std::vector<double> UndlData, const std::vector<double> Dates)
+		: m_UndlData(UndlData), m_Date(Dates)
 	{
 	}
 
 	double underlying::get_underlying(std::size_t index)
 	{
 		return m_UndlData[index];
+	}
+
+	double underlying::get_date(std::size_t index)
+	{
+		return m_Date[index];
 	}
 
 	underlying::~underlying()
