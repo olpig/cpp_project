@@ -20,14 +20,14 @@ namespace project
 		//the constructor handles the size of the vector
 		//m_bevols.resize(size); //Pas sur pour celle_ci
 	}
-	
+
 	double bevolatility::get_bevolatility(std::size_t index) const
 	{
 		return m_bevol[index];
 	}
 	void bevolatility::set_bevolatility(std::size_t index, double bevol)// const
 	{
-		m_bevol[index]=bevol;
+		m_bevol[index] = bevol;
 	}
 	bevolatility::~bevolatility()
 	{
@@ -57,6 +57,19 @@ namespace project
 		//m_rates is a vector not a pointer
 	}
 
+	/*
+	flat_rate::flat_rate(double rate)
+		:m_rate(rate)
+	{
+	}
+	flat_rate::get_rate()
+	{
+		return m_rate;
+	}
+	flat_rate::~flat_rate()
+	{
+	}
+	*/
 	double normal_cdf(double x)
 	{
 		//we define the normal cdf using the error function (calculations are straightforward

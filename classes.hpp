@@ -59,27 +59,3 @@ namespace project
 
 }
 #endif
-
-//commentaire Mounah
-//Une classe pricer fait-elle vraiment sens en terme de mémoire
-// Sachant que le time to mat évolue et qu'en soit cette classe
-// ne contiendra que des fonctions
-// Du coup peut-être qu'en terme de mémoire et de perf on sera gagnant en n'implémant que des fonctions
-
-
-/*
-class pricer()
-{
-public:
-pricer(underlying undl, int time_to_mat, double strike,double rt ,double vol);
-double compute_delta();
-double compute_price(); //is this really needed?
-
-protected:
-
-
-private:
-std::vector<double> m_volatility;
-
-};
-*/

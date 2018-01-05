@@ -4,12 +4,10 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-//for the parser part:
+//for the parser:
 #include <iterator>
-//#include <iostream>
 #include <fstream>
 #include <sstream>
-//#include <vector>
 #include <string>
 
 namespace undl
@@ -38,6 +36,21 @@ namespace undl
 	private:
 		//m_data is a vector of lenght = nb of columns in the csv file
 		std::vector<std::string> m_data;
+	};
+
+	class parser
+	{
+	public:
+		parser();
+		void readfile();
+		//std::istream& operator>>(std::istream& str, undl::CSVRow& data);
+		std::vector<double> get_dates();
+		std::vector<double> get_data();
+		~parser();
+
+	private:
+		std::vector<double> m_v1;
+		std::vector<double> m_v2;
 	};
 
 }

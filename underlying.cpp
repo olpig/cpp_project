@@ -65,4 +65,49 @@ namespace undl
 		}
 	}
 
+	parser::parser()
+		:m_v1(), m_v2()
+	{
+	}
+
+	parser::~parser()
+	{
+	}
+	std::istream& operator>>(std::istream& str, undl::CSVRow& data)
+	{
+		data.readNextRow(str);
+		return str;
+	}
+	void parser::readfile()
+	{
+
+		//set the name of the file to open (this could be done via command line)
+		//requires the full path of the file
+		std::string filepath;
+
+		std::cout << "Please, enter the full file path: ";
+		std::getline(std::cin, filepath);
+		std::cout << "Treating file: " << filepath << std::endl;
+
+		std::ifstream file(filepath);
+
+		undl::CSVRow row;
+
+		while (file >> row)
+		{
+			//adding element by element to v1 and v2
+			m_v1.push_back(std::stod(row[0]));
+			m_v2.push_back(std::stod(row[1]));
+		}
+	}
+	std::vector<double> parser::get_dates()
+	{
+		return m_v1;
+	}
+	std::vector<double> parser::get_data()
+	{
+		return m_v2;
+	}
+
+
 }
