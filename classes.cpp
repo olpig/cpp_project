@@ -73,24 +73,28 @@ namespace project
 	double normal_cdf(double x)
 	{
 		//we define the normal cdf using the error function (calculations are straightforward)
-		return 0.5*(1 + erf(x*std::sqrt(2)));
+		return 0.5*(1 + erf(x*std::sqrt(0.5)));
 	}
 
 	double normal_pdf(double x)
 	{
 		return std::exp(-x*x / 2) * 1 / std::sqrt(2 * pi);
 	}
+
 	double BSPricer(double spot, double time_to_mat, double strike, double rt, double vol)
 	{
 		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
 		double d2 = d1 - vol*std::sqrt(time_to_mat);
-		return spot*normal_cdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_cdf(d2);
+		//std::cout << "spot = " << spot << ", time_to_mat = " << time_to_mat << ", strike = " << strike << ", rate = " << rt << ", vol = " << vol << "d1 = " << d1 << ", d2 = " << d2 << std::endl;
+		double price = spot*normal_cdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_cdf(d2);
+		//std::cout << "N(d1) = " << normal_cdf(d1) << ", N(d2) = " << normal_cdf(d2) << std::endl;
+		return price;
 	}
 
 	double Delta(double spot, double time_to_mat, double strike, double rt ,double vol)
 	{
-		double d1=(std::log(spot/strike)+(rt+vol*vol/2)*time_to_mat)/(vol*std::sqrt(time_to_mat));
-		//return 1/(std::sqrt(2*pi))*std::exp(-0.5*d1*d1);
+		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
+		//std::cout << "d1 = " << d1 << ", T = " << time_to_mat << std::endl;
 		return normal_cdf(d1);
 	}
 
