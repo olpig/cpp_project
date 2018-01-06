@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include "underlying.hpp"
+#include "classes.hpp"
 
 namespace project
 {
@@ -28,7 +29,7 @@ namespace project
 		double ComputeBeVolatility(undl::underlying undl, double rt,double strike, double vol, std::vector<int> time_to_mat);
 		
 		//other methods		
-		double PnlComputation(undl::underlying undl, double rt, double strike, double vol, std::vector<int> time_to_mat);
+		double PnlComputation(undl::underlying undl, double rt, double strike, double vol, std::vector<double> time_to_mat, std::size_t start);
 		double midpoint_algo(double min_vol, double max_vol, double tol, std::size_t max_iter);
 		
 		~beVolatilityComputation();

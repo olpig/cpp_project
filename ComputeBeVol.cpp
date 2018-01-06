@@ -22,32 +22,30 @@ namespace project
 		m_time_to_mat = res;
 	}
 	
-	double beVolatilityComputation::PnlComputation(undl::underlying undl, double rt,double strike, double vol, std::vector<int> time_to_mat)
+	double beVolatilityComputation::PnlComputation(undl::underlying undl, double rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
 	{	
-		/*
+		
 		double BSPrice0; //Call price at the beginning
 		double BSPriceT; //Call price at the end
-		double Delta;
-		double UndlOld;
+		double dlt;
 		double UndlNew;
-		double PnL=0.;
 		//get the first value of underlying at time 0
-		UndlOld = undl.get_underlying(undl.get_size() - 1);
-		BSPrice0=BSPricer(UndlOld, time_to_mat.begin(), strike, rt, vol);
+		double UndlOld = undl.get_underlying(start);
+		BSPrice0=BSPricer(UndlOld, time_to_mat[start], strike, rt, vol);
 		//change this to payoff (last value of the call is its payoff)
-		BSPriceT=BSPricer(undl.get_undl(time_to_mat.end()), time_to_mat.end(), strike, rt, vol);
-		PnL=BSPriceT-BSPrice0;
-		//1er delta
-		for(int i = 0; i < undl.get_size(); ++i)
+		BSPriceT = std::max(undl.get_underlying(0) - strike, 0.0);
+		//intitialize the PnL
+		double PnL=BSPriceT-BSPrice0;
+		
+		for(int i = 1; i < undl.get_size(); i++)
         {
-			UndlNew=undl.getundl(i);//verifier que le type concorde car on avait peut etre mis un size_t pour l'index de l'undl
-			Delta=Delta(UndlOld, time_to_mat[i-1], strike, rt, vol);//On Calcul delta en t-1
-			PnL-=Delta*(UndlNew-UndlOld);
+			UndlNew=undl.get_underlying(i);
+			dlt=Delta(UndlOld, time_to_mat[i-1], strike, rt, vol);//On Calcul delta en t-1
+			PnL-=dlt*(UndlNew-UndlOld);
 			UndlOld=UndlNew;
         }
 		return PnL;
-		*/
-		return 0.0;
+
 	}
 	
 	double beVolatilityComputation::midpoint_algo(double min_vol = 0., double max_vol = 1., double tol = 0.0001, std::size_t max_iter = 10000)

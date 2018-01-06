@@ -80,19 +80,16 @@ namespace project
 	{
 		return std::exp(-x*x / 2) * 1 / std::sqrt(2 * pi);
 	}
-	double BSPricer(double spot, int time_to_mat, double strike, double rt, double vol)
+	double BSPricer(double spot, double time_to_mat, double strike, double rt, double vol)
 	{
-		double d1;
-		double d2;
-		d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
-		d2 = d1 - vol*std::sqrt(time_to_mat);
+		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
+		double d2 = d1 - vol*std::sqrt(time_to_mat);
 		return spot*normal_cdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_cdf(d2);
 	}
 
-	double Delta(double spot, int time_to_mat, double strike, double rt ,double vol)
+	double Delta(double spot, double time_to_mat, double strike, double rt ,double vol)
 	{
-		double d1;
-		d1=(std::log(spot/strike)+(rt+vol*vol/2)*time_to_mat)/(vol*std::sqrt(time_to_mat));
+		double d1=(std::log(spot/strike)+(rt+vol*vol/2)*time_to_mat)/(vol*std::sqrt(time_to_mat));
 		//return 1/(std::sqrt(2*pi))*std::exp(-0.5*d1*d1);
 		return normal_cdf(d1);
 	}

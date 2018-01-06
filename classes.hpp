@@ -48,10 +48,10 @@ namespace project
 		double m_rate;
 	};
 	
-	double BSPricer(double spot, int time_to_mat, double strike, double rt ,double vol);
+	double BSPricer(double spot, double time_to_mat, double strike, double rt ,double vol);
 	
 	//double undl parce que je n'ai besoin que d'un undl précis
-	double Delta(double spot, int time_to_mat, double strike, double rt ,double vol);	
+	double Delta(double spot, double time_to_mat, double strike, double rt ,double vol);	
 
 
 	double normal_cdf(double x);
