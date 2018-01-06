@@ -85,7 +85,7 @@ namespace project
 	{
 		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
 		double d2 = d1 - vol*std::sqrt(time_to_mat);
-		//std::cout << "spot = " << spot << ", time_to_mat = " << time_to_mat << ", strike = " << strike << ", rate = " << rt << ", vol = " << vol << "d1 = " << d1 << ", d2 = " << d2 << std::endl;
+		//std::cout << "spot = " << spot << ", time_to_mat = " << time_to_mat << ", strike = " << strike << ", rate = " << rt << ", vol = " << vol << ", d1 = " << d1 << ", d2 = " << d2 << std::endl;
 		double price = spot*normal_cdf(d1) - strike*std::exp(-rt*time_to_mat)*normal_cdf(d2);
 		//std::cout << "N(d1) = " << normal_cdf(d1) << ", N(d2) = " << normal_cdf(d2) << std::endl;
 		return price;

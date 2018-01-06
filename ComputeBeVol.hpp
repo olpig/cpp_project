@@ -14,13 +14,14 @@ namespace project
 	class beVolatilityComputation
 	{
 	public:
-		beVolatilityComputation(undl::underlying undl, double rt, double strike, double volstart);
+		beVolatilityComputation(undl::underlying undl, double rt, double volstart);
 		//read methods
 		std::vector<double> read_TtoM() const;
 		double get_BeVol() const;
 		double get_rate() const;
 		double read_vol_start() const;
 		std::vector<double> read_undl();
+		double get_strike() const;
 
 		//write methods
 		void update_strike(const double strike);

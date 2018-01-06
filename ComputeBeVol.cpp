@@ -13,7 +13,7 @@
 namespace project
 {
 
-	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, double rt, double strike, double volstart)
+	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, double rt, double volstart)
 		:m_undl(undl), m_rt(rt), m_vol(volstart)
 	{
 		std::vector<double> res(undl.get_size());
@@ -21,7 +21,7 @@ namespace project
 		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return undl.get_date(0) - arg; });
 		m_time_to_mat = res;
 		//setting m_strike as % of initial value
-		m_strike = (strike / 100) * m_undl.get_underlying(m_undl.get_size() - 1);
+		//m_strike = (strike / 100) * m_undl.get_underlying(m_undl.get_size() - 1);
 	}
 	
 	double beVolatilityComputation::PnlComputation(undl::underlying undl, double rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
@@ -41,15 +41,23 @@ namespace project
 		//std::cout << "Final payoff = " << BSPriceT << std::endl;
 		//intitialize the PnL
 		double PnL=BSPriceT-BSPrice0;
-		//std::cout << "first value of PnL = " << PnL << std::endl;
-		for(std::size_t i = (undl.get_size() - 1); i > 0; i--)
+		//std::cout << "PnL from option = " << PnL << std::endl;
+		//std::cout << "Time to maturity at 0: " << time_to_mat[start] / 365 << std::endl;
+		double sum = 0;
+		std::size_t count = 0;
+		for(int i = (undl.get_size() - 2); i >= 0; i--)
         {
 			UndlNew=undl.get_underlying(i);
 			dlt=Delta(UndlOld, time_to_mat[i]/365, strike, rt, vol);//On Calcul delta en t-1
 			PnL-=dlt*(UndlNew-UndlOld);
+			sum -= dlt*(UndlNew - UndlOld);
 			UndlOld=UndlNew;
-			//std::cout << "New value of Underlying: " << UndlNew << ", Delta = " << dlt << ", New PnL = " << PnL << std::endl;
+			count += 1;
+			//std::cout << "New value of Underlying: " << UndlNew << ", Delta = " << dlt << ", hedging PnL = " << sum << std::endl;
         }
+		//std::cout << "Nb days of delta hedging: " << count << std::endl;
+		//std::cout << "Sum of delta hedging = " << sum << std::endl;
+		//std::cout << "Total PnL = " << PnL << std::endl;
 		return PnL;
 
 	}
@@ -75,6 +83,7 @@ namespace project
 		//std::cout << "Initial value of PnL: " << newPnL << std::endl;
 		while (std::fabs(newPnL)>tol)
 		{
+			//std::cout << "Current beVol = " << beVol << std::endl;
 			if (newPnL < 0)
 			{
 				//std::cout << "PnL > 0" << std::endl;
@@ -100,7 +109,7 @@ namespace project
 			newPnL = PnlComputation(m_undl, m_rt, m_strike, beVol, m_time_to_mat, m_undl.get_size() - 1);
 			//std::cout << "new bevol = " << beVol << ", new PnL = " << newPnL << std::endl;
 		}
-		//std::cout << "Last value of PnL is: " << newPnL << "Nb_iter = " << nb_iter << std::endl;
+		//std::cout << "Last value of PnL is: " << newPnL << ", Nb_iter = " << nb_iter << std::endl;
 		return beVol;
 	}
 
@@ -137,5 +146,10 @@ namespace project
 	{
 		//delete[] p_undl;
 		//p_undl = nullptr;
+	}
+
+	double beVolatilityComputation::get_strike() const
+	{
+		return m_strike;
 	}
 }
