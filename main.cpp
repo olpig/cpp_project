@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	std::cout << "Date: " << UL.get_date(10) << " Stock Price: " << UL.get_underlying(10) << std::endl;
 	std::cout << UL.get_size() << std::endl;
 	project::beVolatilityComputation tmp(UL, 0.0, 100.0, 0.1);
-	
+	std::cout << tmp.midpoint_algo(0, 1, 0.0001, 10000) << std::endl;
 
 	return 0;
 }
