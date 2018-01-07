@@ -26,6 +26,7 @@ namespace project
 		explicit rate(std::vector<double> rate);
 		explicit rate(double rate);
 		double get_rate(std::size_t index) const;
+		std::vector<double> read_rate() const;
 		double rate::get_rate() const;
 		~rate();
 	protected:

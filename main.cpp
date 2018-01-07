@@ -28,40 +28,115 @@ using std::endl;
 // cmake -G "NMake Makefiles" ..
 // nmake
 
+bool is_number(const std::string& s)
+{
+	try
+	{
+		std::stod(s);
+	}
+	catch (...)
+	{
+		return false;
+	}
+	return true;
+}
+double input(std::string param, std::string eg, std::string str_def, double def)
+{
+	std::string val;
+	std::cout << "Please, enter a " << param << " to use (eg. for " << eg << "). Press enter for default value (" << str_def << "): ";
+	std::getline(std::cin, val);
+	std::cout << "You selected a " << param << " of: " << val << std::endl;
+	if (val == "")
+	{
+		return def;
+	}
+	while (!is_number(val))
+	{
+		std::cout << "Invalid value of " << param << ". Please enter a valid " << param << ": ";
+		std::getline(std::cin, val);
+		std::cout << "You selected a " << param << " of: " << val << std::endl;
+	}
+	return std::stod(val);
+}
+
+double test_flat_rate()
+{
+	//let the user choose the rate (default set to 0)
+	double tmp = input("rate", "5% enter 0.05", "0%", 0);
+	project::rate rate(tmp);
+	double rt = rate.get_rate();
+	return rt;
+}
+
+std::vector<double> test_file_rates()
+{
+	project::parser file_rates;
+	file_rates.readfile();
+	project::rate rate(file_rates.get_v2());
+	std::vector<double> rt = rate.read_rate();
+	return rt;
+}
+
+
 int main(int argc, char* argv[])
 {
 	//we first setup the data in an underlying object
 	project::parser file_stock;
 	file_stock.readfile();
-	project::underlying UL(file_stock.get_data(), file_stock.get_dates());
-	std::cout << "Date: " << UL.get_date(0) << " Stock Price: " << UL.get_underlying(0) << std::endl;
-	std::cout << UL.get_size() << std::endl;
-	// //std::vector<double> rates; A instancier avec une courbe de taux
-	// //project::rate rate(rates); Si on utilise une courbe de taux
-	//project::flat_rate rate(0.1);
-	project::beVolatilityComputation tmp;
-	//	project::beVolatilityComputation tmp(UL, 0.0);
-	//project::beVolatilityComputation tmp(UL,rate.get_rate());
-	double k = 50.0;
-	double increment_k = 5.0;
-	double max_k = 150.0;
+	project::underlying UL(file_stock.get_v2(), file_stock.get_v1());
+
+	//initialize the parameters
+	project::beVolatilityComputation compute;
 	std::vector<double> v_beVol;
 	double beVol = 0.0;
 	std::size_t count = 0;
 	std::vector<double> v_AllStrikes; //Je crée un vector avec tous les strikes pour le plotting
-	double rate = 0.0;
+	
+	//let the user set the strike parameters
+	std::cout << "Initialization of parameters..." << std::endl;
+	//set the minimum strike
+	double k = input("minimum strike", "50% strike enter 50", "50%", 50);
+	//set the max_k
+	double max_k = input("maximum strike", "50% strike enter 50", "150%", 150);
+	//set the number of steps
+	double increment_k = (max_k - k) / input("number of estimations", "10 steps enter 10", "20", 20);;
 
-	while (k < max_k + 1)
+	//let the user choose if he wants flat rate or not (y for flat rate). warn about the need for a file
+	std::string str_flat_rate;
+	std::cout << "Do you want to use a flat rate? Type y for yes.";
+	std::getline(std::cin, str_flat_rate);
+
+	if (str_flat_rate == "y")
 	{
-		tmp.update_strike(k, UL);
-		beVol = tmp.midpoint_algo(UL, rate, tmp.get_strike(), UL.read_TtoM(), 0.001, 1., 0.0001, 10000);
-		//beVol = tmp.midpoint_algo(0.001, 1, 0.00001, 10000);
-		v_beVol.push_back(beVol);
-		v_AllStrikes.push_back(k);
-		std::cout << "Breakeven vol at strike: " << tmp.get_strike() << " = " << v_beVol[count] << std::endl;
-		count += 1;
-		k += increment_k;
+		std::cout << "You selected a flat rate" << std::endl;
+		double rt = test_flat_rate();
+		while (k < max_k + 1)
+		{
+			compute.update_strike(k, UL);
+			beVol = compute.midpoint_algo(UL, rt, compute.get_strike(), UL.read_TtoM(), 0.001, 1., 0.0001, 10000);
+			v_beVol.push_back(beVol);
+			v_AllStrikes.push_back(k);
+			std::cout << "Breakeven vol at strike: " << compute.get_strike() << " = " << v_beVol[count] << std::endl;
+			count += 1;
+			k += increment_k;
+		}
 	}
+	else
+	{
+		std::cout << "You selected a rate curve" << std::endl;
+		std::vector<double> rt = test_file_rates();
+		while (k < max_k + 1)
+		{
+			compute.update_strike(k, UL);
+			beVol = compute.midpoint_algo(UL, rt, compute.get_strike(), UL.read_TtoM(), 0.001, 1., 0.0001, 10000);
+			v_beVol.push_back(beVol);
+			v_AllStrikes.push_back(k);
+			std::cout << "Breakeven vol at strike: " << compute.get_strike() << " = " << v_beVol[count] << std::endl;
+			count += 1;
+			k += increment_k;
+		}
+	}
+
 	//
     // Plotting Using the GnuplotException class
     //
@@ -84,9 +159,6 @@ int main(int argc, char* argv[])
         cout << ge.what() << endl;
     }
 	*/
-	//tmp.update_strike(100.0);
-	//tmp.PnlComputation(UL, 0.0, tmp.get_strike(), 0.0619, tmp.read_TtoM(), UL.get_size() - 1);
-	//std::cout << "Breakeven vol for strike " << tmp.get_strike() << " = " << tmp.midpoint_algo(0.001, 1, 0.00001, 10000) << std::endl;
 		
 	return 0;
 }
@@ -106,3 +178,6 @@ void wait_for_key ()
 #endif
     return;
 }
+
+
+

@@ -98,10 +98,9 @@ namespace project
 	void parser::readfile()
 	{
 
-		//requires the full path of the file
 		std::string filepath;
 
-		std::cout << "Please, enter the full file path: ";
+		std::cout << "Please, enter file name: ";
 		std::getline(std::cin, filepath);
 		std::cout << "Treating file: " << filepath << std::endl;
 
@@ -116,11 +115,11 @@ namespace project
 			m_v2.push_back(std::stod(row[1]));
 		}
 	}
-	std::vector<double> parser::get_dates()
+	std::vector<double> parser::get_v1()
 	{
 		return m_v1;
 	}
-	std::vector<double> parser::get_data()
+	std::vector<double> parser::get_v2()
 	{
 		return m_v2;
 	}

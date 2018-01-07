@@ -49,9 +49,8 @@ namespace project
 	public:
 		parser();
 		void readfile();
-		//std::istream& operator>>(std::istream& str, undl::CSVRow& data);
-		std::vector<double> get_dates();
-		std::vector<double> get_data();
+		std::vector<double> get_v1();
+		std::vector<double> get_v2();
 		~parser();
 
 	private:
