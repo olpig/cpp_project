@@ -48,12 +48,12 @@ namespace project
 		for(int i = (undl.get_size() - 2); i >= 0; i--)
         {
 			UndlNew=undl.get_underlying(i);
-			dlt=Delta(UndlOld, time_to_mat[i]/365, strike, rt, vol);//On Calcul delta en t-1
+			dlt=Delta(UndlOld, time_to_mat[i+1]/365, strike, rt, vol);//On Calcul delta en t-1
 			PnL-=dlt*(UndlNew-UndlOld);
 			sum -= dlt*(UndlNew - UndlOld);
 			UndlOld=UndlNew;
 			count += 1;
-			//std::cout << "New value of Underlying: " << UndlNew << ", Delta = " << dlt << ", hedging PnL = " << sum << std::endl;
+			//std::cout << "New value of Underlying: " << UndlNew << ", Delta = " << dlt << ", T = " << time_to_mat[i+1] << ", hedging PnL = " << sum << std::endl;
         }
 		//std::cout << "Nb days of delta hedging: " << count << std::endl;
 		//std::cout << "Sum of delta hedging = " << sum << std::endl;

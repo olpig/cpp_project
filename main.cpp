@@ -29,21 +29,21 @@ int main(int argc, char* argv[])
 	double beVol = 0.0;
 	std::size_t count = 0;
 	
+
 	while (k < max_k + 1)
 	{
 		tmp.update_strike(k);
-		beVol = tmp.midpoint_algo(0.001, 1, 0.0000001, 10000);
+		beVol = tmp.midpoint_algo(0.001, 1, 0.00001, 10000);
 		v_beVol.push_back(beVol);
 		std::cout << "Breakeven vol at strike: " << tmp.get_strike() << " = " << v_beVol[count] << std::endl;
 		count += 1;
 		k += increment_k;
 	}
-	
+
 	//tmp.update_strike(100.0);
 	//tmp.PnlComputation(UL, 0.0, tmp.get_strike(), 0.0619, tmp.read_TtoM(), UL.get_size() - 1);
-	//std::cout << "Breakeven vol for strike " << tmp.get_strike() << " = " << tmp.midpoint_algo(0.001, 1, 0.00001, 1) << std::endl;
-
-	
+	//std::cout << "Breakeven vol for strike " << tmp.get_strike() << " = " << tmp.midpoint_algo(0.001, 1, 0.00001, 10000) << std::endl;
+		
 	return 0;
 }
 
