@@ -36,18 +36,20 @@ namespace project
 		m_bevols= nullptr;
 		*/
 	}
-	rate::rate(std::vector<double> rates)
-		: m_rate(rates)
+	rate::rate(std::vector<double> rate)
+		: m_rate(rate)
+	{
+	}
+
+	rate::rate(double rate)
+		: m_rate(rate)
 	{
 	}
 	double rate::get_rate(std::size_t maturity) const
 	{
 		return m_rate[maturity]; //Je considère que la maturité est l'indexe, Il suffit juste de dire que 1st date=1 et voila
 	}
-	double flat_rate::get_rate() const
-	{
-		return m_rate;
-	}
+
 	rate::~rate()
 	{
 		/*
@@ -58,6 +60,7 @@ namespace project
 	}
 
 	/*
+	// Dans son exemple sur le polymorphism le prof utilise un constructeur pour implied vol
 	flat_rate::flat_rate(double rate)
 		:m_rate(rate)
 	{
@@ -74,11 +77,6 @@ namespace project
 	{
 		//we define the normal cdf using the error function (calculations are straightforward)
 		return 0.5*(1 + erf(x*std::sqrt(0.5)));
-	}
-
-	double normal_pdf(double x)
-	{
-		return std::exp(-x*x / 2) * 1 / std::sqrt(2 * pi);
 	}
 
 	double BSPricer(double spot, double time_to_mat, double strike, double rt, double vol)
