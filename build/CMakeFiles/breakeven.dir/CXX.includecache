@@ -48,6 +48,30 @@ cmath
 vector
 -
 
+C:/Users/pigeo/Desktop/master/S3/C++/project/gnuplot_i.hpp
+iostream
+-
+string
+-
+vector
+-
+fstream
+-
+sstream
+-
+stdexcept
+-
+cstdio
+-
+cstdlib
+-
+list
+-
+io.h
+-
+unistd.h
+-
+
 C:/Users/pigeo/Desktop/master/S3/C++/project/main.cpp
 iostream
 -
@@ -61,6 +85,12 @@ underlying.hpp
 C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.hpp
 ComputeBeVol.hpp
 C:/Users/pigeo/Desktop/master/S3/C++/project/ComputeBeVol.hpp
+gnuplot_i.hpp
+C:/Users/pigeo/Desktop/master/S3/C++/project/gnuplot_i.hpp
+conio.h
+-
+windows.h
+-
 
 C:/Users/pigeo/Desktop/master/S3/C++/project/underlying.cpp
 iostream
