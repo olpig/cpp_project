@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
 	// //std::vector<double> rates; A instancier avec une courbe de taux
 	// //project::rate rate(rates); Si on utilise une courbe de taux
 	//project::flat_rate rate(0.1);
-	project::beVolatilityComputation tmp(UL, 0.0, 0.1);
-	//project::beVolatilityComputation tmp(UL,rate.get_rate() , 0.1);
+	project::beVolatilityComputation tmp(UL, 0.0);
+	//project::beVolatilityComputation tmp(UL,rate.get_rate());
 	double k = 50.0;
 	double increment_k = 5.0;
 	double max_k = 150.0;

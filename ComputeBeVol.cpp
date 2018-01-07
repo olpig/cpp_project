@@ -13,17 +13,22 @@
 namespace project
 {
 
-	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, double rt, double volstart)
-		:m_undl(undl), m_rt(rt), m_vol(volstart)
+	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, double rt)
+		:m_undl(undl), m_rt(rt)
 	{
 		std::vector<double> res(undl.get_size());
 		std::vector<double> date = undl.read_date();
 		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return undl.get_date(0) - arg; });
 		m_time_to_mat = res;
-		//setting m_strike as % of initial value
-		//m_strike = (strike / 100) * m_undl.get_underlying(m_undl.get_size() - 1);
 	}
-	
+	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, std::vector<double> rt)//pour une courbe des taux
+		:m_undl(undl), m_rts(rt)
+	{
+		std::vector<double> res(undl.get_size());
+		std::vector<double> date = undl.read_date();
+		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return undl.get_date(0) - arg; });
+		m_time_to_mat = res;
+	}
 	double beVolatilityComputation::PnlComputation(undl::underlying undl, double rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
 	{
 		double BSPrice0; //Call price at the beginning
@@ -49,6 +54,44 @@ namespace project
         {
 			UndlNew=undl.get_underlying(i);
 			dlt=Delta(UndlOld, time_to_mat[i+1]/365, strike, rt, vol);//On Calcul delta en t-1
+			PnL-=dlt*(UndlNew-UndlOld);
+			sum -= dlt*(UndlNew - UndlOld);
+			UndlOld=UndlNew;
+			count += 1;
+			//std::cout << "New value of Underlying: " << UndlNew << ", Delta = " << dlt << ", T = " << time_to_mat[i+1] << ", hedging PnL = " << sum << std::endl;
+        }
+		//std::cout << "Nb days of delta hedging: " << count << std::endl;
+		//std::cout << "Sum of delta hedging = " << sum << std::endl;
+		//std::cout << "Total PnL = " << PnL << std::endl;
+		return PnL;
+
+	}
+	
+		double beVolatilityComputation::PnlComputation(undl::underlying undl, std::vector<double> rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
+	{
+		double BSPrice0; //Call price at the beginning
+		double BSPriceT; //Call price at the end
+		double dlt;
+		double UndlNew;
+		//get the first value of underlying at time 0
+		double UndlOld = undl.get_underlying(start);
+		//std::cout << "intial strike: " << strike << std::endl;
+		//std::cout << "intial undlold: " << UndlOld<< std::endl;
+		BSPrice0 = BSPricer(UndlOld, time_to_mat[start] / 365, strike, rt[start], vol);
+		//std::cout << "initial price of option is: " << BSPrice0 << std::endl;
+		//change this to payoff (last value of the call is its payoff)
+		BSPriceT = std::max(undl.get_underlying(0) - strike, 0.0);
+		//std::cout << "Final payoff = " << BSPriceT << std::endl;
+		//intitialize the PnL
+		double PnL=BSPriceT-BSPrice0;
+		//std::cout << "PnL from option = " << PnL << std::endl;
+		//std::cout << "Time to maturity at 0: " << time_to_mat[start] / 365 << std::endl;
+		double sum = 0;
+		std::size_t count = 0;
+		for(int i = (undl.get_size() - 2); i >= 0; i--)
+        {
+			UndlNew=undl.get_underlying(i);
+			dlt=Delta(UndlOld, time_to_mat[i+1]/365, strike, rt[i+1], vol);//On Calcul delta en t-1
 			PnL-=dlt*(UndlNew-UndlOld);
 			sum -= dlt*(UndlNew - UndlOld);
 			UndlOld=UndlNew;
@@ -113,11 +156,6 @@ namespace project
 		return beVol;
 	}
 
-	//no need for this function
-	double beVolatilityComputation::ComputeBeVolatility(undl::underlying undl, double rt,double strike, double vol, std::vector<int> time_to_mat)
-	{
-		return 0.0;
-	}
 	double beVolatilityComputation::get_BeVol() const
 	{
 		return m_bevol;
@@ -144,8 +182,6 @@ namespace project
 	
 	beVolatilityComputation::~beVolatilityComputation()
 	{
-		//delete[] p_undl;
-		//p_undl = nullptr;
 	}
 
 	double beVolatilityComputation::get_strike() const
