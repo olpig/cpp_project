@@ -12,24 +12,11 @@
 
 namespace project
 {
+	beVolatilityComputation::beVolatilityComputation()
+	{
+	}
 
-	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, double rt)
-		:m_undl(undl), m_rt(rt)
-	{
-		std::vector<double> res(undl.get_size());
-		std::vector<double> date = undl.read_date();
-		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return undl.get_date(0) - arg; });
-		m_time_to_mat = res;
-	}
-	beVolatilityComputation::beVolatilityComputation(undl::underlying undl, std::vector<double> rt)//pour une courbe des taux
-		:m_undl(undl), m_rts(rt)
-	{
-		std::vector<double> res(undl.get_size());
-		std::vector<double> date = undl.read_date();
-		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return undl.get_date(0) - arg; });
-		m_time_to_mat = res;
-	}
-	double beVolatilityComputation::PnlComputation(undl::underlying undl, double rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
+	double beVolatilityComputation::PnlComputation(underlying& undl, double rt, double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
 	{
 		double BSPrice0; //Call price at the beginning
 		double BSPriceT; //Call price at the end
@@ -67,7 +54,7 @@ namespace project
 
 	}
 	
-		double beVolatilityComputation::PnlComputation(undl::underlying undl, std::vector<double> rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
+		double beVolatilityComputation::PnlComputation(underlying& undl, std::vector<double> rt,double strike, double vol, std::vector<double> time_to_mat, std::size_t start)
 	{
 		double BSPrice0; //Call price at the beginning
 		double BSPriceT; //Call price at the end
@@ -105,21 +92,21 @@ namespace project
 
 	}
 	
-	double beVolatilityComputation::midpoint_algo(double min_vol = 0.001, double max_vol = 1., double tol = 0.0001, std::size_t max_iter = 10000)
+	double beVolatilityComputation::midpoint_algo(underlying& undl, double rt, double strike, std::vector<double> time_to_mat, double min_vol, double max_vol, double tol, std::size_t max_iter)
 	{
 		//test to see if the real value of bevol is inclulded in the boundaries
-		double h_PnL = PnlComputation(m_undl, m_rt, m_strike, max_vol, m_time_to_mat, m_undl.get_size() - 1);
-		double l_PnL = PnlComputation(m_undl, m_rt, m_strike, min_vol, m_time_to_mat, m_undl.get_size() - 1);
+		double h_PnL = PnlComputation(undl, rt, strike, max_vol, time_to_mat, undl.get_size() - 1);
+		double l_PnL = PnlComputation(undl, rt, strike, min_vol, time_to_mat, undl.get_size() - 1);
 		//std::cout << "h_PnL = " << h_PnL << ", l_PnL = " << l_PnL << std::endl;
 		if (((h_PnL < 0) && (l_PnL < 0)) || ((h_PnL > 0) && (l_PnL > 0)))
 		{
-			std::cout << "The boundaries of 0% and 100% for the volatility do not contain a value where the PnL would reach 0. Strike " << m_strike << " cannot be solved." << std::endl;
+			std::cout << "The boundaries for the volatility do not contain a value where the PnL would reach 0. Strike " << m_strike << " cannot be solved." << std::endl;
 			return 0;
 		}
 		//set initial value of beVol
 		double beVol = (min_vol + max_vol)/2;
 		//initialize the first value of the PnL with the midpoint between min_vol and max_vol
-		double newPnL = PnlComputation(m_undl, m_rt, m_strike, beVol, m_time_to_mat, m_undl.get_size()-1);
+		double newPnL = PnlComputation(undl, rt, strike, beVol, time_to_mat, undl.get_size()-1);
 		//initilize the number of iteration
 		std::size_t nb_iter = 1;
 		//loop while until we reach the given tolerance
@@ -149,7 +136,58 @@ namespace project
 			}
 			beVol = (min_vol + max_vol) / 2;
 			//std::cout << "min_vol = " << min_vol << ", max_vol = " << max_vol << ", beVol = " << beVol << std::endl;
-			newPnL = PnlComputation(m_undl, m_rt, m_strike, beVol, m_time_to_mat, m_undl.get_size() - 1);
+			newPnL = PnlComputation(undl, rt, strike, beVol, time_to_mat, undl.get_size() - 1);
+			//std::cout << "new bevol = " << beVol << ", new PnL = " << newPnL << std::endl;
+		}
+		//std::cout << "Last value of PnL is: " << newPnL << ", Nb_iter = " << nb_iter << std::endl;
+		return beVol;
+	}
+	//overload for rate as vector
+	double beVolatilityComputation::midpoint_algo(underlying& undl, std::vector<double> rt, double strike, std::vector<double> time_to_mat, double min_vol, double max_vol, double tol, std::size_t max_iter)
+	{
+		//test to see if the real value of bevol is inclulded in the boundaries
+		double h_PnL = PnlComputation(undl, rt, strike, max_vol, time_to_mat, undl.get_size() - 1);
+		double l_PnL = PnlComputation(undl, rt, strike, min_vol, time_to_mat, undl.get_size() - 1);
+		//std::cout << "h_PnL = " << h_PnL << ", l_PnL = " << l_PnL << std::endl;
+		if (((h_PnL < 0) && (l_PnL < 0)) || ((h_PnL > 0) && (l_PnL > 0)))
+		{
+			std::cout << "The boundaries of 0% and 100% for the volatility do not contain a value where the PnL would reach 0. Strike " << m_strike << " cannot be solved." << std::endl;
+			return 0;
+		}
+		//set initial value of beVol
+		double beVol = (min_vol + max_vol) / 2;
+		//initialize the first value of the PnL with the midpoint between min_vol and max_vol
+		double newPnL = PnlComputation(undl, rt, strike, beVol, time_to_mat, undl.get_size() - 1);
+		//initilize the number of iteration
+		std::size_t nb_iter = 1;
+		//loop while until we reach the given tolerance
+		//std::cout << "Initial value of PnL: " << newPnL << std::endl;
+		while (std::fabs(newPnL)>tol)
+		{
+			//std::cout << "Current beVol = " << beVol << std::endl;
+			if (newPnL < 0)
+			{
+				//std::cout << "PnL > 0" << std::endl;
+				max_vol = beVol;
+				//std::cout << "New max_vol = " << max_vol << std::endl;
+			}
+			else
+			{
+				//std::cout << "PnL < 0" << std::endl;
+				min_vol = beVol;
+				//std::cout << "New min_vol = " << min_vol << std::endl;
+			}
+			//std::cout << "iteration: " << nb_iter << " PnL is now: " << newPnL << std::endl;
+			//check if the number of iteration was reach. If so, we take the last value of volatility as the beVol and return an error message
+			nb_iter += 1;
+			if (nb_iter > max_iter)
+			{
+				std::cout << "The maximum number of iteration has been reached the current value of PnL is: " << newPnL << ". The process will be stopped." << std::endl;
+				return beVol;
+			}
+			beVol = (min_vol + max_vol) / 2;
+			//std::cout << "min_vol = " << min_vol << ", max_vol = " << max_vol << ", beVol = " << beVol << std::endl;
+			newPnL = PnlComputation(undl, rt, strike, beVol, time_to_mat, undl.get_size() - 1);
 			//std::cout << "new bevol = " << beVol << ", new PnL = " << newPnL << std::endl;
 		}
 		//std::cout << "Last value of PnL is: " << newPnL << ", Nb_iter = " << nb_iter << std::endl;
@@ -161,24 +199,10 @@ namespace project
 		return m_bevol;
 	}
 
-	void beVolatilityComputation::update_strike(const double strike)
+	void beVolatilityComputation::update_strike(const double strike, underlying undl)
 	{
-		m_strike = (strike / 100) * m_undl.get_underlying(m_undl.get_size() - 1);
+		m_strike = (strike / 100) * undl.get_underlying(undl.get_size() - 1);
 	}
-	
-	std::vector<double> beVolatilityComputation::read_TtoM() const
-	{
-		return m_time_to_mat;
-	}
-	double beVolatilityComputation::get_rate() const
-	{
-		return m_rt;
-	}
-	std::vector<double> beVolatilityComputation::read_undl()
-	{
-		return m_undl.read_underlying();
-	}
-
 	
 	beVolatilityComputation::~beVolatilityComputation()
 	{

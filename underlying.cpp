@@ -7,15 +7,20 @@
 // nmake
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 #include "underlying.hpp"
 
-namespace undl
+namespace project
 {
 
 	underlying::underlying(const std::vector<double> UndlData, const std::vector<double> Dates)
 		: m_UndlData(UndlData), m_Date(Dates)
 	{
 		m_size = m_UndlData.size();
+		std::vector<double> res(get_size());
+		std::vector<double> date = read_date();
+		std::transform(date.begin(), date.end(), res.begin(), [&](double arg) {return get_date(0) - arg; });
+		m_time_to_mat = res;
 	}
 	std::size_t underlying::get_size()
 	{
@@ -34,11 +39,6 @@ namespace undl
 
 	underlying::~underlying()
 	{
-		/*
-		delete[] m_UndlData;
-		m_UndlData= nullptr;
-		*/
-		//m_UndlData is a vector not a pointer
 	}
 	std::vector<double> underlying::read_underlying()
 	{
@@ -47,6 +47,10 @@ namespace undl
 	std::vector<double> underlying::read_date()
 	{
 		return m_Date;
+	}
+	std::vector<double> underlying::read_TtoM()
+	{
+		return m_time_to_mat;
 	}
 
 	std::string const& CSVRow::operator[](std::size_t index) const
@@ -86,7 +90,7 @@ namespace undl
 	parser::~parser()
 	{
 	}
-	std::istream& operator>>(std::istream& str, undl::CSVRow& data)
+	std::istream& operator>>(std::istream& str, CSVRow& data)
 	{
 		data.readNextRow(str);
 		return str;
@@ -94,7 +98,6 @@ namespace undl
 	void parser::readfile()
 	{
 
-		//set the name of the file to open (this could be done via command line)
 		//requires the full path of the file
 		std::string filepath;
 
@@ -104,7 +107,7 @@ namespace undl
 
 		std::ifstream file(filepath);
 
-		undl::CSVRow row;
+		CSVRow row;
 
 		while (file >> row)
 		{

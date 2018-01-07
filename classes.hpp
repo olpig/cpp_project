@@ -25,12 +25,14 @@ namespace project
 	public:
 		explicit rate(std::vector<double> rate);
 		explicit rate(double rate);
-		double get_rate(std::size_t maturity) const;
+		double get_rate(std::size_t index) const;
+		double rate::get_rate() const;
 		~rate();
 	protected:
 
 	private:
-		std::vector<double> m_rate;
+		std::vector<double> m_v_rate;
+		double m_rate;
 	};
 	
 	double BSPricer(double spot, double time_to_mat, double strike, double rt ,double vol);

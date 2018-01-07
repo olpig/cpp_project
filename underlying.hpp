@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 
-namespace undl
+namespace project
 {
 	class underlying
 	{
@@ -20,6 +20,7 @@ namespace undl
 			double get_date(std::size_t index);
 			std::vector<double> read_underlying();
 			std::vector<double> read_date();
+			std::vector<double> read_TtoM();
 			std::size_t get_size();
 			~underlying();
 		
@@ -27,6 +28,7 @@ namespace undl
 			std::vector<double> m_UndlData;
 			std::vector<double> m_Date;
 			std::size_t m_size;
+			std::vector<double> m_time_to_mat;
 	};
 
 	//class representing one row of the csv file

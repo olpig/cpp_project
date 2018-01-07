@@ -17,27 +17,21 @@ namespace project
 	bevolatility::bevolatility(const std::size_t size)
 		:m_bevol(size)
 	{
-		//the constructor handles the size of the vector
-		//m_bevols.resize(size); //Pas sur pour celle_ci
 	}
 
 	double bevolatility::get_bevolatility(std::size_t index) const
 	{
 		return m_bevol[index];
 	}
-	void bevolatility::set_bevolatility(std::size_t index, double bevol)// const
+	void bevolatility::set_bevolatility(std::size_t index, double bevol)
 	{
 		m_bevol[index] = bevol;
 	}
 	bevolatility::~bevolatility()
 	{
-		/*This is not a pointer but rather a vector
-		delete[] m_bevols;
-		m_bevols= nullptr;
-		*/
 	}
 	rate::rate(std::vector<double> rate)
-		: m_rate(rate)
+		: m_v_rate(rate)
 	{
 	}
 
@@ -45,18 +39,16 @@ namespace project
 		: m_rate(rate)
 	{
 	}
-	double rate::get_rate(std::size_t maturity) const
+	double rate::get_rate(std::size_t index) const
 	{
-		return m_rate[maturity]; //Je considère que la maturité est l'indexe, Il suffit juste de dire que 1st date=1 et voila
+		return m_v_rate[index];
 	}
-
+	double rate::get_rate() const
+	{
+		return m_rate;
+	}
 	rate::~rate()
 	{
-		/*
-		delete[] m_rates;
-		m_rates= nullptr;
-		*/
-		//m_rates is a vector not a pointer
 	}
 
 	/*
