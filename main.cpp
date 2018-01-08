@@ -95,15 +95,32 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "You selected a flat rate" << std::endl;
 		double rt = test_flat_rate();
+
+		//choose robustness or not
+		std::string str_robust;
+		bool robust = false;
+		std::cout << "Do you want to use the robustness method? Type y for yes.";
+		std::getline(std::cin, str_robust);
+
+		if (str_robust == "y" || str_robust == "Y")
+		{
+			std::cout << "You selected the robustness method" << std::endl;
+			robust = true;
+		}
+		else
+		{
+			std::cout << "You selected the regular method" << std::endl;
+		}
 		while (k < max_k + 1)
 		{
 			compute.update_strike(k, UL);
-			beVol = compute.midpoint_algo(UL, rt, compute.get_strike(), UL.read_TtoM(), 0.001, 1., 0.0001, 10000);
+			beVol = compute.midpoint_algo(UL, rt, compute.get_strike(), UL.read_TtoM(), 0.001, 1., 0.0001, 10000,robust);
 			v_beVol.push_back(beVol);
 			v_AllStrikes.push_back(k);
 			std::cout << "Breakeven vol at strike: " << compute.get_strike() << " = " << v_beVol[count] << std::endl;
 			count += 1;
 			k += increment_k;
+
 		}
 	}
 	else

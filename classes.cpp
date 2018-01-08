@@ -61,6 +61,10 @@ namespace project
 		return 0.5*(1 + erf(x*std::sqrt(0.5)));
 	}
 
+	double normal_pdf(double x)
+	{
+		return exp(-0.5*x*x)/std::sqrt(2*pi);
+	}
 	double BSPricer(double spot, double time_to_mat, double strike, double rt, double vol)
 	{
 		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
@@ -73,6 +77,12 @@ namespace project
 	{
 		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
 		return normal_cdf(d1);
+	}
+
+	double gamma(double spot, double time_to_mat, double strike, double rt, double vol)
+	{
+		double d1 = (std::log(spot / strike) + (rt + vol*vol / 2)*time_to_mat) / (vol*std::sqrt(time_to_mat));
+		return normal_pdf(d1) / (spot*vol*std::sqrt(time_to_mat));
 	}
 
 }

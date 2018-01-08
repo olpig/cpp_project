@@ -24,7 +24,8 @@ namespace project
 		//other methods		
 		double PnlComputation(underlying& undl, double rt, double strike, double vol, std::vector<double> time_to_mat, std::size_t start);
 		double PnlComputation(underlying& undl, std::vector<double> rt, double strike, double vol, std::vector<double> time_to_mat, std::size_t start);// avec une courbe des taux		
-		double midpoint_algo(underlying& undl, double rt, double strike, std::vector<double> time_to_mat, double min_vol, double max_vol, double tol, std::size_t max_iter);
+		double beVolatilityComputation::PnlComputation(underlying& undl, double rt, double strike, double vol, std::vector<double> time_to_mat, std::size_t start, bool robust);
+		double midpoint_algo(underlying& undl, double rt, double strike, std::vector<double> time_to_mat, double min_vol, double max_vol, double tol, std::size_t max_iter, bool robust);
 		double midpoint_algo(underlying& undl, std::vector<double> rt, double strike, std::vector<double> time_to_mat, double min_vol, double max_vol, double tol, std::size_t max_iter);
 		~beVolatilityComputation();
 

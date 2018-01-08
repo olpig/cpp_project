@@ -39,8 +39,8 @@ namespace project
 	double BSPricer(double spot, double time_to_mat, double strike, double rt ,double vol);
 	
 	double Delta(double spot, double time_to_mat, double strike, double rt ,double vol);	
-
+	double gamma(double spot, double time_to_mat, double strike, double rt, double vol);
 	double normal_cdf(double x);
-
+	double normal_pdf(double x);
 }
 #endif
