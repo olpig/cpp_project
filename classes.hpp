@@ -7,19 +7,6 @@
 
 namespace project
 {
-	class bevolatility
-	{
-	public:
-		bevolatility(std::size_t size);
-		double get_bevolatility(std::size_t index) const; //read method
-		void set_bevolatility(std::size_t index, double bevol); 
-		~bevolatility();
-
-	private:
-		std::vector<double> m_bevol;
-	};
-
-
 	class rate
 	{
 	public:

@@ -14,22 +14,6 @@ namespace project
 	//pi n'est pas explicitement défini sur C++
 	double pi = 3.14159265358979323846264338328;
 
-	bevolatility::bevolatility(const std::size_t size)
-		:m_bevol(size)
-	{
-	}
-
-	double bevolatility::get_bevolatility(std::size_t index) const
-	{
-		return m_bevol[index];
-	}
-	void bevolatility::set_bevolatility(std::size_t index, double bevol)
-	{
-		m_bevol[index] = bevol;
-	}
-	bevolatility::~bevolatility()
-	{
-	}
 	rate::rate(std::vector<double> rate)
 		: m_v_rate(rate)
 	{
